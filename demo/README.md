@@ -3,9 +3,11 @@
 This demo is about that use operator-sdk to write a operator.
 
 ##Install operator-sdk 
+
 just vist [operator](https://github.com/operator-framework/operator-sdk/blob/master/doc/user/install-operator-sdk.md)
 
 ##Create a project
+
 operator-sdk must in gopath and use go models as default.so before start,you must prepare this.
 
 ```bash
