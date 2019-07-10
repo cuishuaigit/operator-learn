@@ -1,0 +1,13 @@
+apiVersion: travis.operator.com/v1
+kind: AppService
+metadata:
+  name: example-appservice
+spec:
+  # Add fields here
+  size: 2
+  image: nginx:alpine
+  externalTrafficPolicy: Local
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30082
