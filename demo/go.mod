@@ -1,4 +1,4 @@
-module github.com/operator-learn/demo
+module github.com/cuishuaigit/operator-learn/demo
 
 require (
 	contrib.go.opencensus.io/exporter/ocagent v0.4.9 // indirect

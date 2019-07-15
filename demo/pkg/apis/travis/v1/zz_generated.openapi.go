@@ -13,9 +13,9 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"github.com/operator-learn/demo/pkg/apis/travis/v1.AppService":       schema_pkg_apis_travis_v1_AppService(ref),
-		"github.com/operator-learn/demo/pkg/apis/travis/v1.AppServiceSpec":   schema_pkg_apis_travis_v1_AppServiceSpec(ref),
-		"github.com/operator-learn/demo/pkg/apis/travis/v1.AppServiceStatus": schema_pkg_apis_travis_v1_AppServiceStatus(ref),
+		"github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1.AppService":       schema_pkg_apis_travis_v1_AppService(ref),
+		"github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1.AppServiceSpec":   schema_pkg_apis_travis_v1_AppServiceSpec(ref),
+		"github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1.AppServiceStatus": schema_pkg_apis_travis_v1_AppServiceStatus(ref),
 	}
 }
 
@@ -46,19 +46,19 @@ func schema_pkg_apis_travis_v1_AppService(ref common.ReferenceCallback) common.O
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/operator-learn/demo/pkg/apis/travis/v1.AppServiceSpec"),
+							Ref: ref("github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1.AppServiceSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/operator-learn/demo/pkg/apis/travis/v1.AppServiceStatus"),
+							Ref: ref("github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1.AppServiceStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"github.com/operator-learn/demo/pkg/apis/travis/v1.AppServiceSpec", "github.com/operator-learn/demo/pkg/apis/travis/v1.AppServiceStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1.AppServiceSpec", "github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1.AppServiceStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 

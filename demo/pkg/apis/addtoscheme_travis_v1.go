@@ -1,7 +1,7 @@
 package apis
 
 import (
-	v1 "github.com/operator-learn/demo/pkg/apis/travis/v1"
+	v1 "github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1"
 )
 
 func init() {

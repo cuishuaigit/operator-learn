@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"reflect"
 
-	travisv1 "github.com/operator-learn/demo/pkg/apis/travis/v1"
-	"github.com/operator-learn/demo/pkg/resources"
+	travisv1 "github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1"
+	"github.com/cuishuaigit/operator-learn/demo/pkg/resources"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -60,8 +60,18 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 	})
 	if err != nil {
 		return err
+
 	}
 
+	err = c.Watch(&source.Kind{Type: &corev1.Service{}}, &handler.EnqueueRequestForOwner{
+		IsController: true,
+		OwnerType:    &travisv1.AppService{},
+	})
+
+	if err != nil {
+		return err
+
+	}
 	return nil
 }
 
@@ -79,7 +89,7 @@ type ReconcileAppService struct {
 // Reconcile reads that state of the cluster for a AppService object and makes changes based on the state read
 // and what is in the AppService.Spec
 // TODO(user): Modify this Reconcile function to implement your Controller logic.  This example creates
-// a Deployment as an example
+// a Pod as an example
 // Note:
 // The Controller will requeue the Request to be processed again if the returned error is non-nil or
 // Result.Requeue is true, otherwise upon completion it will remove the work from the queue.
@@ -102,59 +112,71 @@ func (r *ReconcileAppService) Reconcile(request reconcile.Request) (reconcile.Re
 	}
 	if instance.DeletionTimestamp != nil {
 		return reconcile.Result{}, err
+
 	}
-	// Define a new Deployment object
+	// Define a new Deplooyment object
 	deploy := &appsv1.Deployment{}
 	if err := r.client.Get(context.TODO(), request.NamespacedName, deploy); err != nil && errors.IsNotFound(err) {
 		deploy := resources.NewDeploy(instance)
 		if err := r.client.Create(context.TODO(), deploy); err != nil {
 			return reconcile.Result{}, err
+
 		}
 		service := resources.NewService(instance)
 		if err := r.client.Create(context.TODO(), service); err != nil {
 			return reconcile.Result{}, err
+
 		}
 
 		data, _ := json.Marshal(instance.Spec)
 		if instance.Annotations != nil {
 			instance.Annotations["spec"] = string(data)
+
 		} else {
 			instance.Annotations = map[string]string{"spec": string(data)}
+
 		}
 
 		if err := r.client.Update(context.TODO(), instance); err != nil {
 			return reconcile.Result{}, nil
+
 		}
 		return reconcile.Result{}, nil
+
 	}
 
 	oldspec := &travisv1.AppServiceSpec{}
 	if err := json.Unmarshal([]byte(instance.Annotations["spec"]), oldspec); err != nil {
 		return reconcile.Result{}, nil
-	}
 
+	}
 	if !reflect.DeepEqual(instance.Spec, oldspec) {
 		newDeploy := resources.NewDeploy(instance)
 		oldDeploy := &appsv1.Deployment{}
 		if err := r.client.Get(context.TODO(), request.NamespacedName, oldDeploy); err != nil {
 			return reconcile.Result{}, err
+
 		}
 		oldDeploy.Spec = newDeploy.Spec
 		if err := r.client.Update(context.TODO(), oldDeploy); err != nil {
 			return reconcile.Result{}, err
+
 		}
 
 		newService := resources.NewService(instance)
 		oldService := &corev1.Service{}
 		if err := r.client.Get(context.TODO(), request.NamespacedName, oldService); err != nil {
 			return reconcile.Result{}, err
+
 		}
 		newService.Spec.ClusterIP = oldService.Spec.ClusterIP
 		oldService.Spec = newService.Spec
 		if err := r.client.Update(context.TODO(), oldService); err != nil {
 			return reconcile.Result{}, err
+
 		}
 		return reconcile.Result{}, nil
+
 	}
 	return reconcile.Result{}, nil
 }

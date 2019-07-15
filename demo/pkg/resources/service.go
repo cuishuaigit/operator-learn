@@ -1,7 +1,7 @@
 package resources
 
 import (
-	v1 "github.com/operator-learn/demo/pkg/apis/travis/v1"
+	v1 "github.com/cuishuaigit/operator-learn/demo/pkg/apis/travis/v1"
 
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
